@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UsersService } from '../../users/services/users.service';
@@ -27,8 +27,23 @@ export class PhotoService {
     return photo;
   }
 
-  findAll() {
-    return this.photosRepository.find();
+  async findAll(userId: number) {
+    const userExists = await this.usersService.findOne(userId);
+
+    if (!userExists) {
+      throw new NotFoundException('User not found.');
+    }
+
+    let photos = await this.photosRepository.find();
+
+    photos = photos.map((photo) => {
+      return {
+        ...photo,
+        url: `localhost:3000/photo/${photo.name}`,
+      };
+    });
+
+    return photos;
   }
 
   findOne(id: number) {
