@@ -1,29 +1,26 @@
-import { Photo } from '../../photo/entities/photo.entity';
+import { User } from '../../users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class User {
+export class Photo {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false })
   name: string;
 
-  @Column({ nullable: false })
-  email: string;
+  @Column()
+  path: string;
 
-  @Column({ nullable: false })
-  password: string;
-
-  @OneToMany(() => Photo, (photo) => photo.user)
-  photos: Photo[];
+  @ManyToOne(() => User, (user) => user.photos)
+  user: User;
 
   @CreateDateColumn()
   created_at: Date;
