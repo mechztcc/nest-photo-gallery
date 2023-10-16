@@ -10,6 +10,7 @@ import { Photo } from './modules/photo/entities/photo.entity';
 @Module({
   imports: [
     UsersModule,
+    PhotoModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -21,7 +22,6 @@ import { Photo } from './modules/photo/entities/photo.entity';
       migrations: [__dirname + '/src/shared/migrations/**.ts'],
       synchronize: true,
     }),
-    PhotoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
