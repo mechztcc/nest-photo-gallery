@@ -34,7 +34,9 @@ export class PhotoService {
       throw new NotFoundException('User not found.');
     }
 
-    let photos = await this.photosRepository.find();
+    let photos = await this.photosRepository.find({
+      where: { user: { id: userExists.id } },
+    });
 
     photos = photos.map((photo) => {
       return {
