@@ -1,26 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UsersService } from '../../users/services/users.service';
+import { Photo } from '../entities/photo.entity';
 import { CreatePhotoDto } from '../dto/create-photo.dto';
-import { UpdatePhotoDto } from '../dto/update-photo.dto';
 
 @Injectable()
 export class PhotoService {
-  create(createPhotoDto: CreatePhotoDto) {
-    return 'This action adds a new photo';
+  @InjectRepository(Photo)
+  private photosRepository: Repository<Photo>;
+
+  @Inject()
+  private usersService: UsersService;
+
+  async create({ name, userId }: CreatePhotoDto): Promise<any> {
+    const user = await this.usersService.findOne(userId);
+
+    const photo = this.photosRepository.create({
+      name,
+      path: name,
+      user: user,
+    });
+
+    await this.photosRepository.save(photo);
+
+    return photo;
   }
 
   findAll() {
-    return `This action returns all photo`;
+    return this.photosRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} photo`;
-  }
-
-  update(id: number, updatePhotoDto: UpdatePhotoDto) {
-    return `This action updates a #${id} photo`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} photo`;
+    return this.photosRepository.findBy({ id });
   }
 }
