@@ -3,6 +3,7 @@ import {
   Get,
   Param,
   Post,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -40,8 +41,8 @@ export class PhotoController {
     return this.photoService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.photoService.findOne(+id);
+  @Get(':path')
+  findOne(@Param('path') path: string, @Res() res) {
+    return res.sendFile(path, { root: './uploads' });
   }
 }
