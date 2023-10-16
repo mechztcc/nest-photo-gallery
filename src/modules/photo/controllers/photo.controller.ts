@@ -21,7 +21,7 @@ export class PhotoController {
       storage: diskStorage({
         destination: './uploads/',
         filename: (req, file, cb) => {
-          cb(null, `${file.originalname}`);
+          cb(null, `${new Date().toISOString()}${file.originalname}`);
         },
       }),
       fileFilter: (req, file, callback) => {
@@ -33,7 +33,7 @@ export class PhotoController {
     }),
   )
   create(@UploadedFile() file: Express.Multer.File) {
-    return this.photoService.create({ name: file.originalname, userId: 1 });
+    return this.photoService.create({ name: file.filename, userId: 1 });
   }
 
   @Get('list/:userId')
