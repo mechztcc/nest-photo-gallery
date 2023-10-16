@@ -12,7 +12,7 @@ export class UsersService {
   private usersRepository: Repository<User>;
 
   async create({ email, password, name }: CreateUserDto): Promise<User> {
-    const userExists = this.usersRepository.findOne({ where: { email } });
+    const userExists = await this.usersRepository.findOne({ where: { email } });
 
     if (userExists) {
       throw new ConflictException('User already registered');
