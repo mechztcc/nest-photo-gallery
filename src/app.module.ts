@@ -8,6 +8,7 @@ import { User } from './modules/users/entities/user.entity';
 import { Photo } from './modules/photo/entities/photo.entity';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { MulterModule } from '@nestjs/platform-express';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MulterModule } from '@nestjs/platform-express';
       migrations: [__dirname + '/src/shared/migrations/**.ts'],
       synchronize: true,
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

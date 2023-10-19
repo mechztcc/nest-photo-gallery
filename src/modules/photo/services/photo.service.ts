@@ -24,7 +24,13 @@ export class PhotoService {
 
     await this.photosRepository.save(photo);
 
-    return photo;
+    return {
+      id: photo.id,
+      path: photo.path,
+      name: photo.name,
+      created_at: photo.created_at,
+      updated_at: photo.updated_at,
+    };
   }
 
   async findAll(userId: number) {
@@ -41,7 +47,7 @@ export class PhotoService {
     photos = photos.map((photo) => {
       return {
         ...photo,
-        url: `localhost:3000/photo/${photo.name}`,
+        url: `${process.env.FILE_URL}${photo.name}`,
       };
     });
 
