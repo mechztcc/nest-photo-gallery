@@ -14,11 +14,11 @@ import { HttpInterceptor } from 'src/shared/interceptors/http/http.interceptor';
 import { PhotoService } from '../services/photo.service';
 
 @Controller('photo')
-@UseInterceptors(HttpInterceptor)
 export class PhotoController {
   constructor(private readonly photoService: PhotoService) {}
 
   @Post()
+  @UseInterceptors(HttpInterceptor)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -42,6 +42,7 @@ export class PhotoController {
   }
 
   @Get('list')
+  @UseInterceptors(HttpInterceptor)
   async findAll(@Headers() headers) {
     const user = headers.user;
 
