@@ -41,9 +41,11 @@ export class PhotoController {
     return this.photoService.create({ name: file.filename, userId: user.id });
   }
 
-  @Get('list/:userId')
-  async findAll(@Param('userId') userId: number) {
-    return await this.photoService.findAll(userId);
+  @Get('list')
+  async findAll(@Headers() headers) {
+    const user = headers.user;
+
+    return await this.photoService.findAll(user.id);
   }
 
   @Get(':path')
