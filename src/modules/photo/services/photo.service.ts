@@ -30,6 +30,7 @@ export class PhotoService {
       name: photo.name,
       created_at: photo.created_at,
       updated_at: photo.updated_at,
+      url: `${process.env.FILE_URL}${photo.name}`,
     };
   }
 
