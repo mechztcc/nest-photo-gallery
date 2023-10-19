@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -52,5 +53,10 @@ export class PhotoController {
   @Get(':path')
   findOne(@Param('path') path: string, @Res() res) {
     return res.sendFile(path, { root: './uploads' });
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: number) {
+    return this.photoService.delete(id);
   }
 }

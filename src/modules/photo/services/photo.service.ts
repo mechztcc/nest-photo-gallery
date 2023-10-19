@@ -58,4 +58,15 @@ export class PhotoService {
   findOne(id: number) {
     return this.photosRepository.findBy({ id });
   }
+
+  async delete(id: number): Promise<any> {
+    const photoExists = await this.photosRepository.findOne({
+      where: { id },
+    });
+    if (!photoExists) {
+      throw new NotFoundException('Photo not found');
+    }
+
+    return this.photosRepository.remove(photoExists);
+  }
 }
