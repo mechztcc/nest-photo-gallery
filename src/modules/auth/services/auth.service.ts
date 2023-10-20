@@ -18,7 +18,7 @@ export class AuthService {
 
   constructor(private jwtService: JwtService) {}
 
-  async login({ email, password }: LoginDto) {
+  async login({ email, password, lat, long }: LoginDto) {
     const user = await this.usersRepository.findOne({
       where: { email },
     });
@@ -50,8 +50,8 @@ export class AuthService {
       const invalidSession = this.sessionsLocationRepository.create({
         success: false,
         user: user,
-        lat: '0',
-        long: '0',
+        lat: lat ?? '0',
+        long: long ?? '0',
       });
       this.sessionsLocationRepository.save(invalidSession);
       throw new UnauthorizedException('Password or E-mail is incorrect');
