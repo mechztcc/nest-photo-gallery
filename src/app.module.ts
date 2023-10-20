@@ -9,6 +9,7 @@ import { Photo } from './modules/photo/entities/photo.entity';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from './modules/auth/auth.module';
+import { SessionLocation } from './modules/auth/entities/session-location.entity';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { AuthModule } from './modules/auth/auth.module';
       username: 'postgres',
       password: '123456',
       database: 'photo-gallery',
-      entities: [User, Photo],
+      entities: [User, Photo, SessionLocation],
       migrations: [__dirname + '/src/shared/migrations/**.ts'],
       synchronize: true,
     }),

@@ -1,3 +1,4 @@
+import { SessionLocation } from '../../auth/entities/session-location.entity';
 import { Photo } from '../../photo/entities/photo.entity';
 import {
   Column,
@@ -24,6 +25,9 @@ export class User {
 
   @OneToMany(() => Photo, (photo) => photo.user)
   photos: Photo[];
+
+  @OneToMany(() => SessionLocation, (sessionLocation) => sessionLocation.user)
+  sessionLocation: SessionLocation[];
 
   @CreateDateColumn()
   created_at: Date;

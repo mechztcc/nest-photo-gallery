@@ -5,6 +5,7 @@ import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
+import { SessionLocation } from './entities/session-location.entity';
 
 @Module({
   controllers: [AuthController],
@@ -16,7 +17,7 @@ import { User } from '../users/entities/user.entity';
       secret: 'process.env.JWT_SECRET',
       signOptions: { expiresIn: '60s' },
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, SessionLocation]),
   ],
 })
 export class AuthModule {}
