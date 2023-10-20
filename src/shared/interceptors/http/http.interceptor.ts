@@ -24,7 +24,6 @@ export class HttpInterceptor implements NestInterceptor {
     }
 
     request.headers['user'] = decoded;
-    console.log(decoded);
 
     return next.handle();
   }

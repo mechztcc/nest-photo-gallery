@@ -1,18 +1,26 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
-import { UsersService } from 'src/modules/users/services/users.service';
+import { User } from 'src/modules/users/entities/user.entity';
+import { Repository } from 'typeorm';
 import { LoginDto } from '../dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-  ) {}
+  @InjectRepository(User)
+  private usersRepository: Repository<User>;
+
+  constructor(private jwtService: JwtService) {}
 
   async login({ email, password }: LoginDto) {
-    const user = await this.usersService.findByEmail(email);
+    const user = await this.usersRepository.findOne({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Password or E-mail is incorrect');
+    }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {

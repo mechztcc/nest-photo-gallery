@@ -56,7 +56,7 @@ export class PhotoController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id') id: number, @Headers() headers) {
     return this.photoService.delete(id);
   }
 }
